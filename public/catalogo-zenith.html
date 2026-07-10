@@ -127,19 +127,19 @@ a{color:inherit}
 
 /* ---------- brand card / plate ---------- */
 .brand-card{margin:10px 0;border:1px solid var(--line);border-radius:var(--radius-md);background:rgba(255,255,255,.02);overflow:hidden}
-.brand-kicker{display:flex;align-items:center;justify-content:space-between;gap:10px;padding:12px 14px 0}
+.brand-kicker{display:flex;align-items:flex-start;justify-content:space-between;gap:10px;padding:12px 14px 0}
 .brand-kicker-left{display:flex;align-items:center;gap:7px;min-width:0}
 .brand-kicker-left .mini-seal{flex:0 0 auto;width:16px;height:16px;border-radius:50%;background-image:var(--logo-seal);background-size:cover}
 .brand-kicker-left span{font-size:10px;font-weight:800;letter-spacing:.12em;text-transform:uppercase;color:var(--muted-2);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-.brand-kicker-name{flex:0 1 auto;font-family:var(--display);font-weight:700;font-size:13px;letter-spacing:.02em;text-transform:uppercase;color:var(--silver);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;text-align:right}
-.brand-feature{position:relative;margin:10px 14px 0;min-height:70px;padding:12px 62px;display:flex;align-items:center;justify-content:center}
+.brand-kicker-right{display:flex;flex-direction:column;align-items:flex-end;gap:3px;min-width:0}
+.brand-kicker-name{font-family:var(--display);font-weight:700;font-size:13px;letter-spacing:.02em;text-transform:uppercase;color:var(--silver);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;text-align:right;max-width:100%}
+.brand-kicker-count{font-size:9.5px;font-weight:700;letter-spacing:.04em;text-transform:uppercase;color:var(--muted-2);white-space:nowrap}
+.brand-feature{position:relative;margin:10px 14px 0;min-height:70px;padding:12px 20px;display:flex;align-items:center;justify-content:center}
 .brand-feature .logo-svg{width:100%;max-width:220px;height:46px}
 .brand-feature .logo-svg svg{width:100%;height:100%;display:block}
 .brand-feature .logo-text{font-family:var(--display);font-weight:800;font-size:clamp(17px,6vw,23px);text-transform:uppercase;text-align:center;color:#141516;line-height:1.08;letter-spacing:.01em}
-.brand-count{position:absolute;top:8px;right:8px;font-size:9.5px;font-weight:800;letter-spacing:.04em;text-transform:uppercase;color:var(--muted-2);border:1px solid var(--line);border-radius:999px;padding:3px 8px;background:rgba(0,0,0,.5);white-space:nowrap;z-index:1}
 
 .brand-photo{position:relative;margin:10px 14px 0;aspect-ratio:4.5/1;border-radius:10px;border:1px solid var(--line-strong);background-size:cover;background-position:center;overflow:hidden}
-.brand-photo .brand-count{background:rgba(0,0,0,.65)}
 
 .product-list{list-style:none;margin:12px 0 0;padding:0 12px 10px;border-top:1px solid var(--line)}
 .product-row{display:flex;align-items:center;justify-content:space-between;gap:10px;padding:12px 2px;border-bottom:1px solid rgba(255,255,255,.06)}
@@ -310,9 +310,12 @@ a{color:inherit}
               <span class="mini-seal" role="img" aria-label="Zenith Imports"></span>
               <span>EMAGRECEDORES</span>
             </span>
-            <span class="brand-kicker-name">Alluvi</span>
+            <span class="brand-kicker-right">
+              <span class="brand-kicker-name">Alluvi</span>
+              <span class="brand-kicker-count">1 produto</span>
+            </span>
           </div>
-          <div class="brand-photo photo-alluvi-png" role="img" aria-label="Alluvi"><span class="brand-count">1 produto</span></div>
+          <div class="brand-photo photo-alluvi-png" role="img" aria-label="Alluvi"></div>
           <ul class="product-list">
             <li class="product-row">
                 <div class="product-info">
@@ -329,9 +332,12 @@ a{color:inherit}
               <span class="mini-seal" role="img" aria-label="Zenith Imports"></span>
               <span>EMAGRECEDORES</span>
             </span>
-            <span class="brand-kicker-name">Éticos</span>
+            <span class="brand-kicker-right">
+              <span class="brand-kicker-name">Éticos</span>
+              <span class="brand-kicker-count">6 produtos</span>
+            </span>
           </div>
-          <div class="brand-photo photo-eticos-png" role="img" aria-label="Éticos"><span class="brand-count">6 produtos</span></div>
+          <div class="brand-photo photo-eticos-png" role="img" aria-label="Éticos"></div>
           <ul class="product-list">
             <li class="product-row">
                 <div class="product-info">
@@ -383,9 +389,12 @@ a{color:inherit}
               <span class="mini-seal" role="img" aria-label="Zenith Imports"></span>
               <span>EMAGRECEDORES</span>
             </span>
-            <span class="brand-kicker-name">GEN-TIRZ</span>
+            <span class="brand-kicker-right">
+              <span class="brand-kicker-name">GEN-TIRZ</span>
+              <span class="brand-kicker-count">14 produtos</span>
+            </span>
           </div>
-          <div class="brand-photo photo-gen-tirz-png" role="img" aria-label="GEN-TIRZ"><span class="brand-count">14 produtos</span></div>
+          <div class="brand-photo photo-gen-tirz-png" role="img" aria-label="GEN-TIRZ"></div>
           <ul class="product-list">
             <li class="product-row">
                 <div class="product-info">
@@ -493,9 +502,12 @@ a{color:inherit}
               <span class="mini-seal" role="img" aria-label="Zenith Imports"></span>
               <span>EMAGRECEDORES</span>
             </span>
-            <span class="brand-kicker-name">Health Peptídeos</span>
+            <span class="brand-kicker-right">
+              <span class="brand-kicker-name">Health Peptídeos</span>
+              <span class="brand-kicker-count">5 produtos</span>
+            </span>
           </div>
-          <div class="brand-photo photo-health-png" role="img" aria-label="Health Peptídeos"><span class="brand-count">5 produtos</span></div>
+          <div class="brand-photo photo-health-png" role="img" aria-label="Health Peptídeos"></div>
           <ul class="product-list">
             <li class="product-row">
                 <div class="product-info">
@@ -540,9 +552,12 @@ a{color:inherit}
               <span class="mini-seal" role="img" aria-label="Zenith Imports"></span>
               <span>EMAGRECEDORES</span>
             </span>
-            <span class="brand-kicker-name">Indufar</span>
+            <span class="brand-kicker-right">
+              <span class="brand-kicker-name">Indufar</span>
+              <span class="brand-kicker-count">5 produtos</span>
+            </span>
           </div>
-          <div class="brand-photo photo-indufar-png" role="img" aria-label="Indufar"><span class="brand-count">5 produtos</span></div>
+          <div class="brand-photo photo-indufar-png" role="img" aria-label="Indufar"></div>
           <ul class="product-list">
             <li class="product-row">
                 <div class="product-info">
@@ -587,9 +602,12 @@ a{color:inherit}
               <span class="mini-seal" role="img" aria-label="Zenith Imports"></span>
               <span>EMAGRECEDORES</span>
             </span>
-            <span class="brand-kicker-name">King Pharma</span>
+            <span class="brand-kicker-right">
+              <span class="brand-kicker-name">King Pharma</span>
+              <span class="brand-kicker-count">3 produtos</span>
+            </span>
           </div>
-          <div class="brand-photo photo-king-pharma-png" role="img" aria-label="King Pharma"><span class="brand-count">3 produtos</span></div>
+          <div class="brand-photo photo-king-pharma-png" role="img" aria-label="King Pharma"></div>
           <ul class="product-list">
             <li class="product-row">
                 <div class="product-info">
@@ -620,9 +638,12 @@ a{color:inherit}
               <span class="mini-seal" role="img" aria-label="Zenith Imports"></span>
               <span>EMAGRECEDORES</span>
             </span>
-            <span class="brand-kicker-name">Landergold</span>
+            <span class="brand-kicker-right">
+              <span class="brand-kicker-name">Landergold</span>
+              <span class="brand-kicker-count">1 produto</span>
+            </span>
           </div>
-          <div class="brand-photo photo-lander-gold-png" role="img" aria-label="Landergold"><span class="brand-count">1 produto</span></div>
+          <div class="brand-photo photo-lander-gold-png" role="img" aria-label="Landergold"></div>
           <ul class="product-list">
             <li class="product-row">
                 <div class="product-info">
@@ -639,9 +660,12 @@ a{color:inherit}
               <span class="mini-seal" role="img" aria-label="Zenith Imports"></span>
               <span>EMAGRECEDORES</span>
             </span>
-            <span class="brand-kicker-name">Neuroceptix</span>
+            <span class="brand-kicker-right">
+              <span class="brand-kicker-name">Neuroceptix</span>
+              <span class="brand-kicker-count">8 produtos</span>
+            </span>
           </div>
-          <div class="brand-photo photo-neuroceptix-png" role="img" aria-label="Neuroceptix"><span class="brand-count">8 produtos</span></div>
+          <div class="brand-photo photo-neuroceptix-png" role="img" aria-label="Neuroceptix"></div>
           <ul class="product-list">
             <li class="product-row">
                 <div class="product-info">
@@ -707,9 +731,12 @@ a{color:inherit}
               <span class="mini-seal" role="img" aria-label="Zenith Imports"></span>
               <span>EMAGRECEDORES</span>
             </span>
-            <span class="brand-kicker-name">Oxygen KW</span>
+            <span class="brand-kicker-right">
+              <span class="brand-kicker-name">Oxygen KW</span>
+              <span class="brand-kicker-count">5 produtos</span>
+            </span>
           </div>
-          <div class="brand-photo photo-oxygen-png" role="img" aria-label="Oxygen KW"><span class="brand-count">5 produtos</span></div>
+          <div class="brand-photo photo-oxygen-png" role="img" aria-label="Oxygen KW"></div>
           <ul class="product-list">
             <li class="product-row">
                 <div class="product-info">
@@ -754,9 +781,12 @@ a{color:inherit}
               <span class="mini-seal" role="img" aria-label="Zenith Imports"></span>
               <span>EMAGRECEDORES</span>
             </span>
-            <span class="brand-kicker-name">Pharmacom Labs</span>
+            <span class="brand-kicker-right">
+              <span class="brand-kicker-name">Pharmacom Labs</span>
+              <span class="brand-kicker-count">3 produtos</span>
+            </span>
           </div>
-          <div class="brand-photo photo-pharmacom-png" role="img" aria-label="Pharmacom Labs"><span class="brand-count">3 produtos</span></div>
+          <div class="brand-photo photo-pharmacom-png" role="img" aria-label="Pharmacom Labs"></div>
           <ul class="product-list">
             <li class="product-row">
                 <div class="product-info">
@@ -787,9 +817,12 @@ a{color:inherit}
               <span class="mini-seal" role="img" aria-label="Zenith Imports"></span>
               <span>EMAGRECEDORES</span>
             </span>
-            <span class="brand-kicker-name">Quimfa</span>
+            <span class="brand-kicker-right">
+              <span class="brand-kicker-name">Quimfa</span>
+              <span class="brand-kicker-count">7 produtos</span>
+            </span>
           </div>
-          <div class="brand-photo photo-quimfa-png" role="img" aria-label="Quimfa"><span class="brand-count">7 produtos</span></div>
+          <div class="brand-photo photo-quimfa-png" role="img" aria-label="Quimfa"></div>
           <ul class="product-list">
             <li class="product-row">
                 <div class="product-info">
@@ -848,9 +881,12 @@ a{color:inherit}
               <span class="mini-seal" role="img" aria-label="Zenith Imports"></span>
               <span>EMAGRECEDORES</span>
             </span>
-            <span class="brand-kicker-name">Royal Pharmaceutical</span>
+            <span class="brand-kicker-right">
+              <span class="brand-kicker-name">Royal Pharmaceutical</span>
+              <span class="brand-kicker-count">3 produtos</span>
+            </span>
           </div>
-          <div class="brand-photo photo-royal-png" role="img" aria-label="Royal Pharmaceutical"><span class="brand-count">3 produtos</span></div>
+          <div class="brand-photo photo-royal-png" role="img" aria-label="Royal Pharmaceutical"></div>
           <ul class="product-list">
             <li class="product-row">
                 <div class="product-info">
@@ -881,9 +917,12 @@ a{color:inherit}
               <span class="mini-seal" role="img" aria-label="Zenith Imports"></span>
               <span>EMAGRECEDORES</span>
             </span>
-            <span class="brand-kicker-name">Synedica</span>
+            <span class="brand-kicker-right">
+              <span class="brand-kicker-name">Synedica</span>
+              <span class="brand-kicker-count">3 produtos</span>
+            </span>
           </div>
-          <div class="brand-photo photo-synedica-png" role="img" aria-label="Synedica"><span class="brand-count">3 produtos</span></div>
+          <div class="brand-photo photo-synedica-png" role="img" aria-label="Synedica"></div>
           <ul class="product-list">
             <li class="product-row">
                 <div class="product-info">
@@ -914,9 +953,12 @@ a{color:inherit}
               <span class="mini-seal" role="img" aria-label="Zenith Imports"></span>
               <span>EMAGRECEDORES</span>
             </span>
-            <span class="brand-kicker-name">ZPHCD</span>
+            <span class="brand-kicker-right">
+              <span class="brand-kicker-name">ZPHCD</span>
+              <span class="brand-kicker-count">14 produtos</span>
+            </span>
           </div>
-          <div class="brand-photo photo-zphcd-png" role="img" aria-label="ZPHCD"><span class="brand-count">14 produtos</span></div>
+          <div class="brand-photo photo-zphcd-png" role="img" aria-label="ZPHCD"></div>
           <ul class="product-list">
             <li class="product-row">
                 <div class="product-info">
@@ -1024,9 +1066,12 @@ a{color:inherit}
               <span class="mini-seal" role="img" aria-label="Zenith Imports"></span>
               <span>EMAGRECEDORES</span>
             </span>
-            <span class="brand-kicker-name">Biovant</span>
+            <span class="brand-kicker-right">
+              <span class="brand-kicker-name">Biovant</span>
+              <span class="brand-kicker-count">3 produtos</span>
+            </span>
           </div>
-          <div class="brand-photo photo-biovant-peptides-png" role="img" aria-label="Biovant"><span class="brand-count">3 produtos</span></div>
+          <div class="brand-photo photo-biovant-peptides-png" role="img" aria-label="Biovant"></div>
           <ul class="product-list">
             <li class="product-row">
                 <div class="product-info">
@@ -1069,9 +1114,12 @@ a{color:inherit}
               <span class="mini-seal" role="img" aria-label="Zenith Imports"></span>
               <span>PEPTÍDEOS</span>
             </span>
-            <span class="brand-kicker-name">Alluvi</span>
+            <span class="brand-kicker-right">
+              <span class="brand-kicker-name">Alluvi</span>
+              <span class="brand-kicker-count">2 produtos</span>
+            </span>
           </div>
-          <div class="brand-photo photo-alluvi-png" role="img" aria-label="Alluvi"><span class="brand-count">2 produtos</span></div>
+          <div class="brand-photo photo-alluvi-png" role="img" aria-label="Alluvi"></div>
           <ul class="product-list">
             <li class="product-row">
                 <div class="product-info">
@@ -1095,9 +1143,12 @@ a{color:inherit}
               <span class="mini-seal" role="img" aria-label="Zenith Imports"></span>
               <span>PEPTÍDEOS</span>
             </span>
-            <span class="brand-kicker-name">Cooper Pharma</span>
+            <span class="brand-kicker-right">
+              <span class="brand-kicker-name">Cooper Pharma</span>
+              <span class="brand-kicker-count">8 produtos</span>
+            </span>
           </div>
-          <div class="brand-photo photo-cooper-png" role="img" aria-label="Cooper Pharma"><span class="brand-count">8 produtos</span></div>
+          <div class="brand-photo photo-cooper-png" role="img" aria-label="Cooper Pharma"></div>
           <ul class="product-list">
             <li class="product-row">
                 <div class="product-info">
@@ -1163,9 +1214,12 @@ a{color:inherit}
               <span class="mini-seal" role="img" aria-label="Zenith Imports"></span>
               <span>ORAIS</span>
             </span>
-            <span class="brand-kicker-name">Dragon Elite</span>
+            <span class="brand-kicker-right">
+              <span class="brand-kicker-name">Dragon Elite</span>
+              <span class="brand-kicker-count">2 produtos</span>
+            </span>
           </div>
-          <div class="brand-photo photo-dragon-elite-png" role="img" aria-label="Dragon Elite"><span class="brand-count">2 produtos</span></div>
+          <div class="brand-photo photo-dragon-elite-png" role="img" aria-label="Dragon Elite"></div>
           <ul class="product-list">
             <li class="product-row">
                 <div class="product-info">
@@ -1189,9 +1243,12 @@ a{color:inherit}
               <span class="mini-seal" role="img" aria-label="Zenith Imports"></span>
               <span>DILUENTES</span>
             </span>
-            <span class="brand-kicker-name">Health Peptídeos</span>
+            <span class="brand-kicker-right">
+              <span class="brand-kicker-name">Health Peptídeos</span>
+              <span class="brand-kicker-count">36 produtos</span>
+            </span>
           </div>
-          <div class="brand-photo photo-health-png" role="img" aria-label="Health Peptídeos"><span class="brand-count">36 produtos</span></div>
+          <div class="brand-photo photo-health-png" role="img" aria-label="Health Peptídeos"></div>
           <ul class="product-list">
             <li class="product-row">
                 <div class="product-info">
@@ -1453,9 +1510,12 @@ a{color:inherit}
               <span class="mini-seal" role="img" aria-label="Zenith Imports"></span>
               <span>PEPTÍDEOS</span>
             </span>
-            <span class="brand-kicker-name">Muscle Labs</span>
+            <span class="brand-kicker-right">
+              <span class="brand-kicker-name">Muscle Labs</span>
+              <span class="brand-kicker-count">2 produtos</span>
+            </span>
           </div>
-          <div class="brand-photo photo-muscle-png" role="img" aria-label="Muscle Labs"><span class="brand-count">2 produtos</span></div>
+          <div class="brand-photo photo-muscle-png" role="img" aria-label="Muscle Labs"></div>
           <ul class="product-list">
             <li class="product-row">
                 <div class="product-info">
@@ -1479,9 +1539,12 @@ a{color:inherit}
               <span class="mini-seal" role="img" aria-label="Zenith Imports"></span>
               <span>PEPTÍDEOS</span>
             </span>
-            <span class="brand-kicker-name">Neo Peptides</span>
+            <span class="brand-kicker-right">
+              <span class="brand-kicker-name">Neo Peptides</span>
+              <span class="brand-kicker-count">7 produtos</span>
+            </span>
           </div>
-          <div class="brand-photo photo-neo-peptides-png" role="img" aria-label="Neo Peptides"><span class="brand-count">7 produtos</span></div>
+          <div class="brand-photo photo-neo-peptides-png" role="img" aria-label="Neo Peptides"></div>
           <ul class="product-list">
             <li class="product-row">
                 <div class="product-info">
@@ -1540,9 +1603,12 @@ a{color:inherit}
               <span class="mini-seal" role="img" aria-label="Zenith Imports"></span>
               <span>DILUENTES</span>
             </span>
-            <span class="brand-kicker-name">Neuroceptix</span>
+            <span class="brand-kicker-right">
+              <span class="brand-kicker-name">Neuroceptix</span>
+              <span class="brand-kicker-count">48 produtos</span>
+            </span>
           </div>
-          <div class="brand-photo photo-neuroceptix-png" role="img" aria-label="Neuroceptix"><span class="brand-count">48 produtos</span></div>
+          <div class="brand-photo photo-neuroceptix-png" role="img" aria-label="Neuroceptix"></div>
           <ul class="product-list">
             <li class="product-row">
                 <div class="product-info">
@@ -1888,9 +1954,12 @@ a{color:inherit}
               <span class="mini-seal" role="img" aria-label="Zenith Imports"></span>
               <span>PEPTÍDEOS</span>
             </span>
-            <span class="brand-kicker-name">Oxygen KW</span>
+            <span class="brand-kicker-right">
+              <span class="brand-kicker-name">Oxygen KW</span>
+              <span class="brand-kicker-count">17 produtos</span>
+            </span>
           </div>
-          <div class="brand-photo photo-oxygen-png" role="img" aria-label="Oxygen KW"><span class="brand-count">17 produtos</span></div>
+          <div class="brand-photo photo-oxygen-png" role="img" aria-label="Oxygen KW"></div>
           <ul class="product-list">
             <li class="product-row">
                 <div class="product-info">
@@ -2019,9 +2088,12 @@ a{color:inherit}
               <span class="mini-seal" role="img" aria-label="Zenith Imports"></span>
               <span>PEPTÍDEOS</span>
             </span>
-            <span class="brand-kicker-name">Purity</span>
+            <span class="brand-kicker-right">
+              <span class="brand-kicker-name">Purity</span>
+              <span class="brand-kicker-count">2 produtos</span>
+            </span>
           </div>
-          <div class="brand-photo photo-purity-png" role="img" aria-label="Purity"><span class="brand-count">2 produtos</span></div>
+          <div class="brand-photo photo-purity-png" role="img" aria-label="Purity"></div>
           <ul class="product-list">
             <li class="product-row">
                 <div class="product-info">
@@ -2045,9 +2117,12 @@ a{color:inherit}
               <span class="mini-seal" role="img" aria-label="Zenith Imports"></span>
               <span>PEPTÍDEOS</span>
             </span>
-            <span class="brand-kicker-name">Royal Pharmaceutical</span>
+            <span class="brand-kicker-right">
+              <span class="brand-kicker-name">Royal Pharmaceutical</span>
+              <span class="brand-kicker-count">9 produtos</span>
+            </span>
           </div>
-          <div class="brand-photo photo-royal-png" role="img" aria-label="Royal Pharmaceutical"><span class="brand-count">9 produtos</span></div>
+          <div class="brand-photo photo-royal-png" role="img" aria-label="Royal Pharmaceutical"></div>
           <ul class="product-list">
             <li class="product-row">
                 <div class="product-info">
@@ -2120,9 +2195,12 @@ a{color:inherit}
               <span class="mini-seal" role="img" aria-label="Zenith Imports"></span>
               <span>PEPTÍDEOS</span>
             </span>
-            <span class="brand-kicker-name">Synedica</span>
+            <span class="brand-kicker-right">
+              <span class="brand-kicker-name">Synedica</span>
+              <span class="brand-kicker-count">1 produto</span>
+            </span>
           </div>
-          <div class="brand-photo photo-synedica-png" role="img" aria-label="Synedica"><span class="brand-count">1 produto</span></div>
+          <div class="brand-photo photo-synedica-png" role="img" aria-label="Synedica"></div>
           <ul class="product-list">
             <li class="product-row">
                 <div class="product-info">
@@ -2139,9 +2217,12 @@ a{color:inherit}
               <span class="mini-seal" role="img" aria-label="Zenith Imports"></span>
               <span>PEPTÍDEOS</span>
             </span>
-            <span class="brand-kicker-name">ZPHCD</span>
+            <span class="brand-kicker-right">
+              <span class="brand-kicker-name">ZPHCD</span>
+              <span class="brand-kicker-count">25 produtos</span>
+            </span>
           </div>
-          <div class="brand-photo photo-zphcd-png" role="img" aria-label="ZPHCD"><span class="brand-count">25 produtos</span></div>
+          <div class="brand-photo photo-zphcd-png" role="img" aria-label="ZPHCD"></div>
           <ul class="product-list">
             <li class="product-row">
                 <div class="product-info">
@@ -2326,9 +2407,12 @@ a{color:inherit}
               <span class="mini-seal" role="img" aria-label="Zenith Imports"></span>
               <span>PEPTÍDEOS</span>
             </span>
-            <span class="brand-kicker-name">Biovant</span>
+            <span class="brand-kicker-right">
+              <span class="brand-kicker-name">Biovant</span>
+              <span class="brand-kicker-count">36 produtos</span>
+            </span>
           </div>
-          <div class="brand-photo photo-biovant-peptides-png" role="img" aria-label="Biovant"><span class="brand-count">36 produtos</span></div>
+          <div class="brand-photo photo-biovant-peptides-png" role="img" aria-label="Biovant"></div>
           <ul class="product-list">
             <li class="product-row">
                 <div class="product-info">
@@ -2590,9 +2674,12 @@ a{color:inherit}
               <span class="mini-seal" role="img" aria-label="Zenith Imports"></span>
               <span>PEPTÍDEOS</span>
             </span>
-            <span class="brand-kicker-name">Novax</span>
+            <span class="brand-kicker-right">
+              <span class="brand-kicker-name">Novax</span>
+              <span class="brand-kicker-count">21 produtos</span>
+            </span>
           </div>
-          <div class="brand-photo photo-novax-png" role="img" aria-label="Novax"><span class="brand-count">21 produtos</span></div>
+          <div class="brand-photo photo-novax-png" role="img" aria-label="Novax"></div>
           <ul class="product-list">
             <li class="product-row">
                 <div class="product-info">
@@ -2761,9 +2848,12 @@ a{color:inherit}
               <span class="mini-seal" role="img" aria-label="Zenith Imports"></span>
               <span>PREMIUM</span>
             </span>
-            <span class="brand-kicker-name">Alpha Pharma</span>
+            <span class="brand-kicker-right">
+              <span class="brand-kicker-name">Alpha Pharma</span>
+              <span class="brand-kicker-count">28 produtos</span>
+            </span>
           </div>
-          <div class="brand-photo photo-alpha-pharma-png" role="img" aria-label="Alpha Pharma"><span class="brand-count">28 produtos</span></div>
+          <div class="brand-photo photo-alpha-pharma-png" role="img" aria-label="Alpha Pharma"></div>
           <ul class="product-list">
             <li class="product-row">
                 <div class="product-info">
@@ -2969,9 +3059,12 @@ a{color:inherit}
               <span class="mini-seal" role="img" aria-label="Zenith Imports"></span>
               <span>PREMIUM</span>
             </span>
-            <span class="brand-kicker-name">Canada Labs</span>
+            <span class="brand-kicker-right">
+              <span class="brand-kicker-name">Canada Labs</span>
+              <span class="brand-kicker-count">20 produtos</span>
+            </span>
           </div>
-          <div class="brand-photo photo-canada-png" role="img" aria-label="Canada Labs"><span class="brand-count">20 produtos</span></div>
+          <div class="brand-photo photo-canada-png" role="img" aria-label="Canada Labs"></div>
           <ul class="product-list">
             <li class="product-row">
                 <div class="product-info">
@@ -3121,9 +3214,12 @@ a{color:inherit}
               <span class="mini-seal" role="img" aria-label="Zenith Imports"></span>
               <span>PREMIUM</span>
             </span>
-            <span class="brand-kicker-name">Cooper Pharma</span>
+            <span class="brand-kicker-right">
+              <span class="brand-kicker-name">Cooper Pharma</span>
+              <span class="brand-kicker-count">33 produtos</span>
+            </span>
           </div>
-          <div class="brand-photo photo-cooper-png" role="img" aria-label="Cooper Pharma"><span class="brand-count">33 produtos</span></div>
+          <div class="brand-photo photo-cooper-png" role="img" aria-label="Cooper Pharma"></div>
           <ul class="product-list">
             <li class="product-row">
                 <div class="product-info">
@@ -3364,9 +3460,12 @@ a{color:inherit}
               <span class="mini-seal" role="img" aria-label="Zenith Imports"></span>
               <span>PREMIUM</span>
             </span>
-            <span class="brand-kicker-name">Eminence Labs</span>
+            <span class="brand-kicker-right">
+              <span class="brand-kicker-name">Eminence Labs</span>
+              <span class="brand-kicker-count">23 produtos</span>
+            </span>
           </div>
-          <div class="brand-photo photo-eminence-png" role="img" aria-label="Eminence Labs"><span class="brand-count">23 produtos</span></div>
+          <div class="brand-photo photo-eminence-png" role="img" aria-label="Eminence Labs"></div>
           <ul class="product-list">
             <li class="product-row">
                 <div class="product-info">
@@ -3537,9 +3636,12 @@ a{color:inherit}
               <span class="mini-seal" role="img" aria-label="Zenith Imports"></span>
               <span>PREMIUM</span>
             </span>
-            <span class="brand-kicker-name">IDN Pharmatech</span>
+            <span class="brand-kicker-right">
+              <span class="brand-kicker-name">IDN Pharmatech</span>
+              <span class="brand-kicker-count">11 produtos</span>
+            </span>
           </div>
-          <div class="brand-photo photo-idn-png" role="img" aria-label="IDN Pharmatech"><span class="brand-count">11 produtos</span></div>
+          <div class="brand-photo photo-idn-png" role="img" aria-label="IDN Pharmatech"></div>
           <ul class="product-list">
             <li class="product-row">
                 <div class="product-info">
@@ -3626,9 +3728,12 @@ a{color:inherit}
               <span class="mini-seal" role="img" aria-label="Zenith Imports"></span>
               <span>PREMIUM</span>
             </span>
-            <span class="brand-kicker-name">Pharmacom Labs</span>
+            <span class="brand-kicker-right">
+              <span class="brand-kicker-name">Pharmacom Labs</span>
+              <span class="brand-kicker-count">36 produtos</span>
+            </span>
           </div>
-          <div class="brand-photo photo-pharmacom-png" role="img" aria-label="Pharmacom Labs"><span class="brand-count">36 produtos</span></div>
+          <div class="brand-photo photo-pharmacom-png" role="img" aria-label="Pharmacom Labs"></div>
           <ul class="product-list">
             <li class="product-row">
                 <div class="product-info">
@@ -3890,9 +3995,12 @@ a{color:inherit}
               <span class="mini-seal" role="img" aria-label="Zenith Imports"></span>
               <span>PREMIUM</span>
             </span>
-            <span class="brand-kicker-name">ZPHCD</span>
+            <span class="brand-kicker-right">
+              <span class="brand-kicker-name">ZPHCD</span>
+              <span class="brand-kicker-count">40 produtos</span>
+            </span>
           </div>
-          <div class="brand-photo photo-zphcd-png" role="img" aria-label="ZPHCD"><span class="brand-count">40 produtos</span></div>
+          <div class="brand-photo photo-zphcd-png" role="img" aria-label="ZPHCD"></div>
           <ul class="product-list">
             <li class="product-row">
                 <div class="product-info">
@@ -4194,9 +4302,12 @@ a{color:inherit}
               <span class="mini-seal" role="img" aria-label="Zenith Imports"></span>
               <span>IMPORTADOS</span>
             </span>
-            <span class="brand-kicker-name">King Pharma</span>
+            <span class="brand-kicker-right">
+              <span class="brand-kicker-name">King Pharma</span>
+              <span class="brand-kicker-count">30 produtos</span>
+            </span>
           </div>
-          <div class="brand-photo photo-king-pharma-png" role="img" aria-label="King Pharma"><span class="brand-count">30 produtos</span></div>
+          <div class="brand-photo photo-king-pharma-png" role="img" aria-label="King Pharma"></div>
           <ul class="product-list">
             <li class="product-row">
                 <div class="product-info">
@@ -4416,9 +4527,12 @@ a{color:inherit}
               <span class="mini-seal" role="img" aria-label="Zenith Imports"></span>
               <span>IMPORTADOS</span>
             </span>
-            <span class="brand-kicker-name">Landergold</span>
+            <span class="brand-kicker-right">
+              <span class="brand-kicker-name">Landergold</span>
+              <span class="brand-kicker-count">12 produtos</span>
+            </span>
           </div>
-          <div class="brand-photo photo-lander-gold-png" role="img" aria-label="Landergold"><span class="brand-count">12 produtos</span></div>
+          <div class="brand-photo photo-lander-gold-png" role="img" aria-label="Landergold"></div>
           <ul class="product-list">
             <li class="product-row">
                 <div class="product-info">
@@ -4512,9 +4626,12 @@ a{color:inherit}
               <span class="mini-seal" role="img" aria-label="Zenith Imports"></span>
               <span>IMPORTADOS</span>
             </span>
-            <span class="brand-kicker-name">Landerlan</span>
+            <span class="brand-kicker-right">
+              <span class="brand-kicker-name">Landerlan</span>
+              <span class="brand-kicker-count">16 produtos</span>
+            </span>
           </div>
-          <div class="brand-photo photo-landerlan-png" role="img" aria-label="Landerlan"><span class="brand-count">16 produtos</span></div>
+          <div class="brand-photo photo-landerlan-png" role="img" aria-label="Landerlan"></div>
           <ul class="product-list">
             <li class="product-row">
                 <div class="product-info">
@@ -4636,9 +4753,12 @@ a{color:inherit}
               <span class="mini-seal" role="img" aria-label="Zenith Imports"></span>
               <span>IMPORTADOS</span>
             </span>
-            <span class="brand-kicker-name">Muscle Labs</span>
+            <span class="brand-kicker-right">
+              <span class="brand-kicker-name">Muscle Labs</span>
+              <span class="brand-kicker-count">30 produtos</span>
+            </span>
           </div>
-          <div class="brand-photo photo-muscle-png" role="img" aria-label="Muscle Labs"><span class="brand-count">30 produtos</span></div>
+          <div class="brand-photo photo-muscle-png" role="img" aria-label="Muscle Labs"></div>
           <ul class="product-list">
             <li class="product-row">
                 <div class="product-info">
@@ -4858,9 +4978,12 @@ a{color:inherit}
               <span class="mini-seal" role="img" aria-label="Zenith Imports"></span>
               <span>IMPORTADOS</span>
             </span>
-            <span class="brand-kicker-name">Muscle Labs Black</span>
+            <span class="brand-kicker-right">
+              <span class="brand-kicker-name">Muscle Labs Black</span>
+              <span class="brand-kicker-count">5 produtos</span>
+            </span>
           </div>
-          <div class="brand-photo photo-muscle-png" role="img" aria-label="Muscle Labs Black"><span class="brand-count">5 produtos</span></div>
+          <div class="brand-photo photo-muscle-png" role="img" aria-label="Muscle Labs Black"></div>
           <ul class="product-list">
             <li class="product-row">
                 <div class="product-info">
@@ -4905,9 +5028,12 @@ a{color:inherit}
               <span class="mini-seal" role="img" aria-label="Zenith Imports"></span>
               <span>IMPORTADOS</span>
             </span>
-            <span class="brand-kicker-name">Oxygen KW</span>
+            <span class="brand-kicker-right">
+              <span class="brand-kicker-name">Oxygen KW</span>
+              <span class="brand-kicker-count">11 produtos</span>
+            </span>
           </div>
-          <div class="brand-photo photo-oxygen-png" role="img" aria-label="Oxygen KW"><span class="brand-count">11 produtos</span></div>
+          <div class="brand-photo photo-oxygen-png" role="img" aria-label="Oxygen KW"></div>
           <ul class="product-list">
             <li class="product-row">
                 <div class="product-info">
@@ -5006,9 +5132,12 @@ a{color:inherit}
               <span class="mini-seal" role="img" aria-label="Zenith Imports"></span>
               <span>GH</span>
             </span>
-            <span class="brand-kicker-name">FIOCRUZ</span>
+            <span class="brand-kicker-right">
+              <span class="brand-kicker-name">FIOCRUZ</span>
+              <span class="brand-kicker-count">2 produtos</span>
+            </span>
           </div>
-          <div class="brand-photo photo-fiocruz-png" role="img" aria-label="FIOCRUZ"><span class="brand-count">2 produtos</span></div>
+          <div class="brand-photo photo-fiocruz-png" role="img" aria-label="FIOCRUZ"></div>
           <ul class="product-list">
             <li class="product-row">
                 <div class="product-info">
@@ -5032,9 +5161,12 @@ a{color:inherit}
               <span class="mini-seal" role="img" aria-label="Zenith Imports"></span>
               <span>GH</span>
             </span>
-            <span class="brand-kicker-name">ZPHCD</span>
+            <span class="brand-kicker-right">
+              <span class="brand-kicker-name">ZPHCD</span>
+              <span class="brand-kicker-count">9 produtos</span>
+            </span>
           </div>
-          <div class="brand-photo photo-zphcd-png" role="img" aria-label="ZPHCD"><span class="brand-count">9 produtos</span></div>
+          <div class="brand-photo photo-zphcd-png" role="img" aria-label="ZPHCD"></div>
           <ul class="product-list">
             <li class="product-row">
                 <div class="product-info">
@@ -5107,9 +5239,12 @@ a{color:inherit}
               <span class="mini-seal" role="img" aria-label="Zenith Imports"></span>
               <span>GH</span>
             </span>
-            <span class="brand-kicker-name">Landerlan</span>
+            <span class="brand-kicker-right">
+              <span class="brand-kicker-name">Landerlan</span>
+              <span class="brand-kicker-count">1 produto</span>
+            </span>
           </div>
-          <div class="brand-photo photo-landerlan-png" role="img" aria-label="Landerlan"><span class="brand-count">1 produto</span></div>
+          <div class="brand-photo photo-landerlan-png" role="img" aria-label="Landerlan"></div>
           <ul class="product-list">
             <li class="product-row">
                 <div class="product-info">
@@ -5126,9 +5261,12 @@ a{color:inherit}
               <span class="mini-seal" role="img" aria-label="Zenith Imports"></span>
               <span>GH</span>
             </span>
-            <span class="brand-kicker-name">Muscle Labs</span>
+            <span class="brand-kicker-right">
+              <span class="brand-kicker-name">Muscle Labs</span>
+              <span class="brand-kicker-count">1 produto</span>
+            </span>
           </div>
-          <div class="brand-photo photo-muscle-png" role="img" aria-label="Muscle Labs"><span class="brand-count">1 produto</span></div>
+          <div class="brand-photo photo-muscle-png" role="img" aria-label="Muscle Labs"></div>
           <ul class="product-list">
             <li class="product-row">
                 <div class="product-info">
@@ -5145,9 +5283,12 @@ a{color:inherit}
               <span class="mini-seal" role="img" aria-label="Zenith Imports"></span>
               <span>GH</span>
             </span>
-            <span class="brand-kicker-name">Canada Labs</span>
+            <span class="brand-kicker-right">
+              <span class="brand-kicker-name">Canada Labs</span>
+              <span class="brand-kicker-count">1 produto</span>
+            </span>
           </div>
-          <div class="brand-photo photo-canada-png" role="img" aria-label="Canada Labs"><span class="brand-count">1 produto</span></div>
+          <div class="brand-photo photo-canada-png" role="img" aria-label="Canada Labs"></div>
           <ul class="product-list">
             <li class="product-row">
                 <div class="product-info">
@@ -5164,9 +5305,12 @@ a{color:inherit}
               <span class="mini-seal" role="img" aria-label="Zenith Imports"></span>
               <span>GH</span>
             </span>
-            <span class="brand-kicker-name">Cooper Pharma</span>
+            <span class="brand-kicker-right">
+              <span class="brand-kicker-name">Cooper Pharma</span>
+              <span class="brand-kicker-count">1 produto</span>
+            </span>
           </div>
-          <div class="brand-photo photo-cooper-png" role="img" aria-label="Cooper Pharma"><span class="brand-count">1 produto</span></div>
+          <div class="brand-photo photo-cooper-png" role="img" aria-label="Cooper Pharma"></div>
           <ul class="product-list">
             <li class="product-row">
                 <div class="product-info">
@@ -5183,9 +5327,12 @@ a{color:inherit}
               <span class="mini-seal" role="img" aria-label="Zenith Imports"></span>
               <span>PREMIUM</span>
             </span>
-            <span class="brand-kicker-name">Pharmacom Labs</span>
+            <span class="brand-kicker-right">
+              <span class="brand-kicker-name">Pharmacom Labs</span>
+              <span class="brand-kicker-count">1 produto</span>
+            </span>
           </div>
-          <div class="brand-photo photo-pharmacom-png" role="img" aria-label="Pharmacom Labs"><span class="brand-count">1 produto</span></div>
+          <div class="brand-photo photo-pharmacom-png" role="img" aria-label="Pharmacom Labs"></div>
           <ul class="product-list">
             <li class="product-row">
                 <div class="product-info">
@@ -5202,9 +5349,12 @@ a{color:inherit}
               <span class="mini-seal" role="img" aria-label="Zenith Imports"></span>
               <span>GH</span>
             </span>
-            <span class="brand-kicker-name">Kigtropin</span>
+            <span class="brand-kicker-right">
+              <span class="brand-kicker-name">Kigtropin</span>
+              <span class="brand-kicker-count">2 produtos</span>
+            </span>
           </div>
-          <div class="brand-photo photo-king-pharma-png" role="img" aria-label="Kigtropin"><span class="brand-count">2 produtos</span></div>
+          <div class="brand-photo photo-king-pharma-png" role="img" aria-label="Kigtropin"></div>
           <ul class="product-list">
             <li class="product-row">
                 <div class="product-info">
@@ -5240,9 +5390,12 @@ a{color:inherit}
               <span class="mini-seal" role="img" aria-label="Zenith Imports"></span>
               <span>SARMS</span>
             </span>
-            <span class="brand-kicker-name">Cooper Pharma</span>
+            <span class="brand-kicker-right">
+              <span class="brand-kicker-name">Cooper Pharma</span>
+              <span class="brand-kicker-count">4 produtos</span>
+            </span>
           </div>
-          <div class="brand-photo photo-cooper-png" role="img" aria-label="Cooper Pharma"><span class="brand-count">4 produtos</span></div>
+          <div class="brand-photo photo-cooper-png" role="img" aria-label="Cooper Pharma"></div>
           <ul class="product-list">
             <li class="product-row">
                 <div class="product-info">
@@ -5280,9 +5433,12 @@ a{color:inherit}
               <span class="mini-seal" role="img" aria-label="Zenith Imports"></span>
               <span>SARMS</span>
             </span>
-            <span class="brand-kicker-name">Dragon Elite</span>
+            <span class="brand-kicker-right">
+              <span class="brand-kicker-name">Dragon Elite</span>
+              <span class="brand-kicker-count">23 produtos</span>
+            </span>
           </div>
-          <div class="brand-photo photo-dragon-elite-png" role="img" aria-label="Dragon Elite"><span class="brand-count">23 produtos</span></div>
+          <div class="brand-photo photo-dragon-elite-png" role="img" aria-label="Dragon Elite"></div>
           <ul class="product-list">
             <li class="product-row">
                 <div class="product-info">
@@ -5453,9 +5609,12 @@ a{color:inherit}
               <span class="mini-seal" role="img" aria-label="Zenith Imports"></span>
               <span>VARIADOS</span>
             </span>
-            <span class="brand-kicker-name">Variados</span>
+            <span class="brand-kicker-right">
+              <span class="brand-kicker-name">Variados</span>
+              <span class="brand-kicker-count">4 produtos</span>
+            </span>
           </div>
-          <div class="brand-photo photo-variados-png" role="img" aria-label="Variados"><span class="brand-count">4 produtos</span></div>
+          <div class="brand-photo photo-variados-png" role="img" aria-label="Variados"></div>
           <ul class="product-list">
             <li class="product-row">
                 <div class="product-info">
@@ -5493,9 +5652,12 @@ a{color:inherit}
               <span class="mini-seal" role="img" aria-label="Zenith Imports"></span>
               <span>VARIADOS</span>
             </span>
-            <span class="brand-kicker-name">Emporio Pharma</span>
+            <span class="brand-kicker-right">
+              <span class="brand-kicker-name">Emporio Pharma</span>
+              <span class="brand-kicker-count">4 produtos</span>
+            </span>
           </div>
-          <div class="brand-photo photo-emporio-pharma-png" role="img" aria-label="Emporio Pharma"><span class="brand-count">4 produtos</span></div>
+          <div class="brand-photo photo-emporio-pharma-png" role="img" aria-label="Emporio Pharma"></div>
           <ul class="product-list">
             <li class="product-row">
                 <div class="product-info">
@@ -5533,9 +5695,12 @@ a{color:inherit}
               <span class="mini-seal" role="img" aria-label="Zenith Imports"></span>
               <span>VARIADOS</span>
             </span>
-            <span class="brand-kicker-name">Vitapulmin</span>
+            <span class="brand-kicker-right">
+              <span class="brand-kicker-name">Vitapulmin</span>
+              <span class="brand-kicker-count">1 produto</span>
+            </span>
           </div>
-          <div class="brand-photo photo-vitapulmin-png" role="img" aria-label="Vitapulmin"><span class="brand-count">1 produto</span></div>
+          <div class="brand-photo photo-vitapulmin-png" role="img" aria-label="Vitapulmin"></div>
           <ul class="product-list">
             <li class="product-row">
                 <div class="product-info">
@@ -5552,9 +5717,12 @@ a{color:inherit}
               <span class="mini-seal" role="img" aria-label="Zenith Imports"></span>
               <span>VARIADOS</span>
             </span>
-            <span class="brand-kicker-name">Synthol Alemanha</span>
+            <span class="brand-kicker-right">
+              <span class="brand-kicker-name">Synthol Alemanha</span>
+              <span class="brand-kicker-count">1 produto</span>
+            </span>
           </div>
-          <div class="brand-photo photo-synthol-alemanha-png" role="img" aria-label="Synthol Alemanha"><span class="brand-count">1 produto</span></div>
+          <div class="brand-photo photo-synthol-alemanha-png" role="img" aria-label="Synthol Alemanha"></div>
           <ul class="product-list">
             <li class="product-row">
                 <div class="product-info">
@@ -5571,9 +5739,12 @@ a{color:inherit}
               <span class="mini-seal" role="img" aria-label="Zenith Imports"></span>
               <span>VARIADOS</span>
             </span>
-            <span class="brand-kicker-name">Synthol USA</span>
+            <span class="brand-kicker-right">
+              <span class="brand-kicker-name">Synthol USA</span>
+              <span class="brand-kicker-count">1 produto</span>
+            </span>
           </div>
-          <div class="brand-photo photo-synthol-usa-png" role="img" aria-label="Synthol USA"><span class="brand-count">1 produto</span></div>
+          <div class="brand-photo photo-synthol-usa-png" role="img" aria-label="Synthol USA"></div>
           <ul class="product-list">
             <li class="product-row">
                 <div class="product-info">
@@ -5590,9 +5761,12 @@ a{color:inherit}
               <span class="mini-seal" role="img" aria-label="Zenith Imports"></span>
               <span>VARIADOS</span>
             </span>
-            <span class="brand-kicker-name">Pramil</span>
+            <span class="brand-kicker-right">
+              <span class="brand-kicker-name">Pramil</span>
+              <span class="brand-kicker-count">1 produto</span>
+            </span>
           </div>
-          <div class="brand-photo photo-pramil-png" role="img" aria-label="Pramil"><span class="brand-count">1 produto</span></div>
+          <div class="brand-photo photo-pramil-png" role="img" aria-label="Pramil"></div>
           <ul class="product-list">
             <li class="product-row">
                 <div class="product-info">
@@ -5621,9 +5795,12 @@ a{color:inherit}
               <span class="mini-seal" role="img" aria-label="Zenith Imports"></span>
               <span>FARMÁCIA</span>
             </span>
-            <span class="brand-kicker-name">Farmácia</span>
+            <span class="brand-kicker-right">
+              <span class="brand-kicker-name">Farmácia</span>
+              <span class="brand-kicker-count">37 produtos</span>
+            </span>
           </div>
-          <div class="brand-photo photo-farmacia-png" role="img" aria-label="Farmácia"><span class="brand-count">37 produtos</span></div>
+          <div class="brand-photo photo-farmacia-png" role="img" aria-label="Farmácia"></div>
           <ul class="product-list">
             <li class="product-row">
                 <div class="product-info">
@@ -5892,9 +6069,12 @@ a{color:inherit}
               <span class="mini-seal" role="img" aria-label="Zenith Imports"></span>
               <span>MANIPULADOS</span>
             </span>
-            <span class="brand-kicker-name">Manipulados</span>
+            <span class="brand-kicker-right">
+              <span class="brand-kicker-name">Manipulados</span>
+              <span class="brand-kicker-count">12 produtos</span>
+            </span>
           </div>
-          <div class="brand-photo photo-manipulados-png" role="img" aria-label="Manipulados"><span class="brand-count">12 produtos</span></div>
+          <div class="brand-photo photo-manipulados-png" role="img" aria-label="Manipulados"></div>
           <ul class="product-list">
             <li class="product-row">
                 <div class="product-info">

@@ -359,19 +359,19 @@ ${freightTable.map((s) => `#uf-${s.uf}:checked ~ .frete-results [data-uf="${s.uf
 
 /* ---------- brand card / plate ---------- */
 .brand-card{margin:10px 0;border:1px solid var(--line);border-radius:var(--radius-md);background:rgba(255,255,255,.02);overflow:hidden}
-.brand-kicker{display:flex;align-items:center;justify-content:space-between;gap:10px;padding:12px 14px 0}
+.brand-kicker{display:flex;align-items:flex-start;justify-content:space-between;gap:10px;padding:12px 14px 0}
 .brand-kicker-left{display:flex;align-items:center;gap:7px;min-width:0}
 .brand-kicker-left .mini-seal{flex:0 0 auto;width:16px;height:16px;border-radius:50%;background-image:var(--logo-seal);background-size:cover}
 .brand-kicker-left span{font-size:10px;font-weight:800;letter-spacing:.12em;text-transform:uppercase;color:var(--muted-2);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-.brand-kicker-name{flex:0 1 auto;font-family:var(--display);font-weight:700;font-size:13px;letter-spacing:.02em;text-transform:uppercase;color:var(--silver);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;text-align:right}
-.brand-feature{position:relative;margin:10px 14px 0;min-height:70px;padding:12px 62px;display:flex;align-items:center;justify-content:center}
+.brand-kicker-right{display:flex;flex-direction:column;align-items:flex-end;gap:3px;min-width:0}
+.brand-kicker-name{font-family:var(--display);font-weight:700;font-size:13px;letter-spacing:.02em;text-transform:uppercase;color:var(--silver);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;text-align:right;max-width:100%}
+.brand-kicker-count{font-size:9.5px;font-weight:700;letter-spacing:.04em;text-transform:uppercase;color:var(--muted-2);white-space:nowrap}
+.brand-feature{position:relative;margin:10px 14px 0;min-height:70px;padding:12px 20px;display:flex;align-items:center;justify-content:center}
 .brand-feature .logo-svg{width:100%;max-width:220px;height:46px}
 .brand-feature .logo-svg svg{width:100%;height:100%;display:block}
 .brand-feature .logo-text{font-family:var(--display);font-weight:800;font-size:clamp(17px,6vw,23px);text-transform:uppercase;text-align:center;color:#141516;line-height:1.08;letter-spacing:.01em}
-.brand-count{position:absolute;top:8px;right:8px;font-size:9.5px;font-weight:800;letter-spacing:.04em;text-transform:uppercase;color:var(--muted-2);border:1px solid var(--line);border-radius:999px;padding:3px 8px;background:rgba(0,0,0,.5);white-space:nowrap;z-index:1}
 
 .brand-photo{position:relative;margin:10px 14px 0;aspect-ratio:4.5/1;border-radius:10px;border:1px solid var(--line-strong);background-size:cover;background-position:center;overflow:hidden}
-.brand-photo .brand-count{background:rgba(0,0,0,.65)}
 
 .product-list{list-style:none;margin:12px 0 0;padding:0 12px 10px;border-top:1px solid var(--line)}
 .product-row{display:flex;align-items:center;justify-content:space-between;gap:10px;padding:12px 2px;border-bottom:1px solid rgba(255,255,255,.06)}
@@ -488,11 +488,11 @@ function buildBrandCard(categorySlug, brand, images, svgs) {
   const svgFile = SVG_FILE_MAP[brandKey];
   let feature;
   if (photoFile) {
-    feature = `<div class="brand-photo photo-${slugify(photoFile)}" role="img" aria-label="${esc(label)}"><span class="brand-count">${countLabel}</span></div>`;
+    feature = `<div class="brand-photo photo-${slugify(photoFile)}" role="img" aria-label="${esc(label)}"></div>`;
   } else if (svgFile) {
-    feature = `<div class="plate brand-feature"><span class="logo-svg" role="img" aria-label="${esc(label)}">${svgs[svgFile]}</span><span class="brand-count">${countLabel}</span></div>`;
+    feature = `<div class="plate brand-feature"><span class="logo-svg" role="img" aria-label="${esc(label)}">${svgs[svgFile]}</span></div>`;
   } else {
-    feature = `<div class="plate brand-feature"><span class="logo-text">${esc(label)}</span><span class="brand-count">${countLabel}</span></div>`;
+    feature = `<div class="plate brand-feature"><span class="logo-text">${esc(label)}</span></div>`;
   }
 
   return `<section class="brand-card" id="${id}">
@@ -501,7 +501,10 @@ function buildBrandCard(categorySlug, brand, images, svgs) {
               <span class="mini-seal" role="img" aria-label="Zenith Imports"></span>
               <span>${esc(groupLabel)}</span>
             </span>
-            <span class="brand-kicker-name">${esc(label)}</span>
+            <span class="brand-kicker-right">
+              <span class="brand-kicker-name">${esc(label)}</span>
+              <span class="brand-kicker-count">${countLabel}</span>
+            </span>
           </div>
           ${feature}
           <ul class="product-list">
