@@ -1,0 +1,23 @@
+{
+  "name": "catalogo-zenith",
+  "version": "1.0.0",
+  "private": true,
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
+    "build:catalog": "node scripts/build-catalog.mjs"
+  },
+  "dependencies": {
+    "next": "^15.1.2",
+    "react": "^19.0.0",
+    "react-dom": "^19.0.0"
+  },
+  "devDependencies": {
+    "sharp": "^0.33.5",
+    "xlsx": "^0.18.5",
+    "typescript": "^5",
+    "@types/node": "^20",
+    "@types/react": "^19"
+  }
+}
