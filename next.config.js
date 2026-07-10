@@ -3,7 +3,7 @@ const nextConfig = {
   reactStrictMode: true,
   async rewrites() {
     return [
-      { source: "/", destination: "/catalogo-zenith.html" },
+      { source: "/py", destination: "/catalogo-zenith.html" },
     ];
   },
 };

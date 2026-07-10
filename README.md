@@ -11,7 +11,7 @@ Site estático de catálogo (preços, marcas e frete) da Zenith Imports, separad
 - `public/assets/CAPA/HEAD.png` (dentro de `CAPAS/`) — imagem do topo (hero).
 - `build-assets/fonts/` — fontes (Barlow, Big Shoulders Display) usadas na geração do HTML.
 - `scripts/build-catalog.mjs` — script que lê a planilha + assets e gera `public/catalogo-zenith.html`.
-- `src/middleware.ts` — protege o catálogo por token na URL (`?acesso=...`).
+- `src/middleware.ts` — bloqueia o acesso direto a `/catalogo-zenith.html`, forçando o uso do caminho `/py`.
 
 ## Como atualizar o catálogo
 
@@ -22,23 +22,18 @@ Site estático de catálogo (preços, marcas e frete) da Zenith Imports, separad
    npm install
    npm run build:catalog
    ```
-4. Confira `public/catalogo-zenith.html` localmente (`npm run dev` e abra `http://localhost:3000/?acesso=<token>`).
+4. Confira `public/catalogo-zenith.html` localmente (`npm run dev` e abra `http://localhost:3000/py`).
 5. Commit e push.
 
-## Acesso protegido por token
+## Acesso
 
-O catálogo só abre com o token certo na URL:
+O catálogo fica em `/py`:
 
 ```
-https://seudominio.com/?acesso=SEU_TOKEN
+https://seudominio.com/py
 ```
 
-Sem o token (ou com token errado), a página retorna 404.
-
-O token vive na variável de ambiente `CATALOG_ACCESS_TOKEN` — **nunca é commitado**. Para configurar:
-
-- **Local:** crie um `.env` na raiz com `CATALOG_ACCESS_TOKEN=seu-token-aqui`.
-- **Vercel:** Settings → Environment Variables → adicione `CATALOG_ACCESS_TOKEN` (Production, Preview e Development) e faça um redeploy.
+O nome real do arquivo (`/catalogo-zenith.html`) e a raiz (`/`) retornam 404 — só `/py` funciona. Não depende de nenhuma variável de ambiente.
 
 ## Frete
 
