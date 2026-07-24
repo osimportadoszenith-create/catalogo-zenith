@@ -316,6 +316,18 @@ a{color:inherit}
 .nav-brand{flex:0 0 auto;width:34px;height:34px;border-radius:50%;background:var(--logo-seal);background-size:cover;box-shadow:0 0 0 1px var(--line-strong)}
 .nav a{flex:0 0 auto;font-family:var(--display);font-weight:700;font-size:12.5px;letter-spacing:.03em;text-transform:uppercase;text-decoration:none;color:var(--silver);background:linear-gradient(180deg,rgba(255,255,255,.08),rgba(0,0,0,.24));border:1px solid var(--line);padding:9px 13px;border-radius:999px;white-space:nowrap}
 .nav a:active{background:linear-gradient(180deg,rgba(255,255,255,.2),rgba(0,0,0,.24))}
+.search-wrap{max-width:var(--maxw);margin:9px auto 0;padding:0 12px}
+.catalog-search{position:relative;display:flex;align-items:center}
+.search-icon{position:absolute;left:13px;width:19px;height:19px;color:var(--muted);pointer-events:none}
+.search-input{width:100%;height:44px;padding:0 46px 0 42px;border:1px solid var(--line-strong);border-radius:999px;background:linear-gradient(180deg,rgba(255,255,255,.09),rgba(255,255,255,.035));color:var(--silver-soft);font:600 14px var(--body);outline:none;box-shadow:inset 0 1px 0 rgba(255,255,255,.06)}
+.search-input::placeholder{color:var(--muted)}
+.search-input::-webkit-search-cancel-button{-webkit-appearance:none;appearance:none;display:none}
+.search-input:focus{border-color:rgba(255,255,255,.75);box-shadow:0 0 0 3px rgba(255,255,255,.08)}
+.search-clear{position:absolute;right:7px;width:32px;height:32px;border:0;border-radius:50%;background:rgba(255,255,255,.09);color:var(--silver);font-size:20px;line-height:1;cursor:pointer}
+.search-clear:hover{background:rgba(255,255,255,.16)}
+.search-status{min-height:18px;margin:6px 7px 0;color:var(--muted);font-size:11.5px;font-weight:600}
+.search-status.is-empty{color:#e3b7b7}
+[hidden]{display:none !important}
 
 /* ---------- frete (100% CSS, sem dependência de JavaScript) ---------- */
 .frete-body{padding:4px 12px 16px}
@@ -519,7 +531,7 @@ function buildCategory(cat, catalogData, images, svgs) {
   const totalBrands = brands.length;
   const cards = brands.map((b) => buildBrandCard(cat.slug, b, images, svgs)).join("\n");
 
-  return `<details class="category" id="${cat.slug}">
+  return `<details class="category catalog-category" id="${cat.slug}">
         <summary>
           <span class="cat-icon" role="img" aria-label="Zenith Imports"></span>
           <span class="cat-title">
@@ -540,6 +552,17 @@ function buildNav() {
       <span class="nav-brand" role="img" aria-label="Zenith Imports"></span>
       <a href="#frete" data-open="frete">FRETE</a><a href="#informacoes" data-open="informacoes">INFORMAÇÕES</a>${links}
     </nav>`;
+}
+
+function buildSearch() {
+  return `<div class="search-wrap">
+      <form class="catalog-search" role="search" aria-label="Buscar produtos">
+        <svg class="search-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><circle cx="11" cy="11" r="7"></circle><path d="m20 20-4-4"></path></svg>
+        <input class="search-input" id="catalog-search" type="search" inputmode="search" autocomplete="off" placeholder="Buscar produto, ex.: tirzepatida" aria-describedby="search-status">
+        <button class="search-clear" id="search-clear" type="button" aria-label="Limpar busca" hidden>&times;</button>
+      </form>
+      <div class="search-status" id="search-status" role="status" aria-live="polite"></div>
+    </div>`;
 }
 
 // ---------- main ----------
@@ -585,6 +608,7 @@ ${buildPhotoClasses(images)}
 
   <div class="nav-wrap">
     ${buildNav()}
+    ${buildSearch()}
   </div>
 
   <main class="page">
@@ -616,6 +640,93 @@ function abrirCategoriaDoLink(){
 }
 abrirCategoriaDoLink();
 window.addEventListener("hashchange", abrirCategoriaDoLink);
+
+var searchInput = document.getElementById("catalog-search");
+var searchClear = document.getElementById("search-clear");
+var searchStatus = document.getElementById("search-status");
+var catalogCategories = Array.from(document.querySelectorAll(".catalog-category"));
+var searchActive = false;
+
+function normalizeSearch(value){
+  return (value || "")
+    .normalize("NFD")
+    .replace(/[\\u0300-\\u036f]/g, "")
+    .toLowerCase()
+    .trim();
+}
+
+function filterCatalog(){
+  var query = normalizeSearch(searchInput.value);
+  var isSearching = query.length > 0;
+  var totalMatches = 0;
+
+  if (isSearching && !searchActive) {
+    catalogCategories.forEach(function(category){
+      category.dataset.openBeforeSearch = category.open ? "true" : "false";
+    });
+  }
+
+  catalogCategories.forEach(function(category){
+    var categoryMatches = 0;
+    category.querySelectorAll(".brand-card").forEach(function(card){
+      var brandMatches = 0;
+      var brandCount = card.querySelector(".brand-kicker-count");
+      card.querySelectorAll(".product-row").forEach(function(row){
+        var searchable = normalizeSearch(row.textContent);
+        var matches = !isSearching || searchable.includes(query);
+        row.hidden = !matches;
+        if (matches && isSearching) brandMatches += 1;
+      });
+      if (isSearching) {
+        if (!brandCount.dataset.defaultText) brandCount.dataset.defaultText = brandCount.textContent;
+        brandCount.textContent = brandMatches + (brandMatches === 1 ? " resultado" : " resultados");
+      } else if (searchActive && brandCount.dataset.defaultText) {
+        brandCount.textContent = brandCount.dataset.defaultText;
+        delete brandCount.dataset.defaultText;
+      }
+      card.hidden = isSearching && brandMatches === 0;
+      categoryMatches += brandMatches;
+    });
+
+    var categoryCount = category.querySelector(".cat-title small");
+    if (isSearching) {
+      if (!categoryCount.dataset.defaultText) categoryCount.dataset.defaultText = categoryCount.textContent;
+      categoryCount.textContent = categoryMatches + (categoryMatches === 1 ? " resultado" : " resultados");
+    } else if (searchActive && categoryCount.dataset.defaultText) {
+      categoryCount.textContent = categoryCount.dataset.defaultText;
+      delete categoryCount.dataset.defaultText;
+    }
+    category.hidden = isSearching && categoryMatches === 0;
+    if (isSearching && categoryMatches > 0) category.open = true;
+    if (!isSearching && searchActive) {
+      category.open = category.dataset.openBeforeSearch === "true";
+      delete category.dataset.openBeforeSearch;
+    }
+    totalMatches += categoryMatches;
+  });
+
+  document.getElementById("frete").hidden = isSearching;
+  document.getElementById("informacoes").hidden = isSearching;
+  searchClear.hidden = !isSearching;
+  searchStatus.classList.toggle("is-empty", isSearching && totalMatches === 0);
+  searchStatus.textContent = !isSearching
+    ? ""
+    : totalMatches === 0
+      ? "Nenhum produto encontrado."
+      : totalMatches + (totalMatches === 1 ? " produto encontrado." : " produtos encontrados.");
+  searchActive = isSearching;
+}
+
+searchInput.addEventListener("input", filterCatalog);
+searchInput.addEventListener("search", filterCatalog);
+searchClear.addEventListener("click", function(){
+  searchInput.value = "";
+  filterCatalog();
+  searchInput.focus();
+});
+document.querySelector(".catalog-search").addEventListener("submit", function(event){
+  event.preventDefault();
+});
 </script>
 </body>
 </html>`;
