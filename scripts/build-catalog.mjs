@@ -364,6 +364,7 @@ a{color:inherit}
 [hidden]{display:none !important}
 @media (max-width:640px){
   .search-input{font-size:16px}
+  .hero-marquee-track{animation-duration:7s}
 }
 
 /* ---------- frete (100% CSS, sem dependência de JavaScript) ---------- */
