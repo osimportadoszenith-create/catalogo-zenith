@@ -11,6 +11,7 @@ const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const ROOT = path.resolve(__dirname, "..");
 const PUBLIC = path.join(ROOT, "public");
 const ASSETS = path.join(PUBLIC, "assets");
+const COVER_DIR = path.join(ASSETS, "CAPA");
 const FONTS_DIR = path.join(ROOT, "build-assets", "fonts");
 const XLSX_PATH = path.join(PUBLIC, "Tabela final atualizada .xlsx");
 const OUT_PATH = path.join(PUBLIC, "catalogo-zenith.html");
@@ -76,6 +77,15 @@ const BRAND_OVERRIDES = {
 };
 function brandLabel(name) {
   return BRAND_OVERRIDES[name.toUpperCase()] || name;
+}
+
+const GROUP_LABEL_OVERRIDES = {
+  EMAGRECEDORES: "CANETAS E EMAGRECEDORES",
+  IMPORTADOS: "LINHA IMPORTADA",
+};
+function groupLabel(name) {
+  const cleaned = cleanText(name);
+  return GROUP_LABEL_OVERRIDES[cleaned.toUpperCase()] || cleaned;
 }
 
 // Marca -> arquivo de capa dentro de public/assets/CAPAS
@@ -149,10 +159,10 @@ const SVG_FILE_MAP = {
 };
 
 const CATEGORIES = [
-  { key: "EMAGRECECORES", slug: "emagrecedores", title: "Emagrecedores" },
+  { key: "EMAGRECECORES", slug: "emagrecedores", title: "Canetas e Emagrecedores" },
   { key: "PEPTIDEOS ", slug: "peptideos", title: "Peptídeos" },
   { key: "MARCAS PREMIUM", slug: "premium", title: "Linha Premium" },
-  { key: "MARCAS IMPORTADAS", slug: "importadas", title: "Importadas" },
+  { key: "MARCAS IMPORTADAS", slug: "importadas", title: "Linha Importada" },
   { key: "GH", slug: "gh", title: "GH" },
   { key: "SARMS + PRODUTOS VARIADOS", slug: "sarms", title: "Sarms &amp; Variados" },
   { key: "FARMÁCIA + MANIPULADOS", slug: "farmacia", title: "Farmácia" },
@@ -201,7 +211,11 @@ function toFontBase64(absPath) {
 async function buildImageCache() {
   const cache = {};
   cache.estrela1 = await toWebpBase64(path.join(ASSETS, "estrela1.png"), 240);
-  cache.capa = await toWebpBase64(path.join(ASSETS, "CAPAS", "HEAD.png"), 1300);
+  cache.capa = await toWebpBase64(path.join(COVER_DIR, "CAPA-TABELA.png"), 1300);
+  cache.carousel = ["FAIXA.svg"].map((file) => ({
+    file,
+    data: fs.readFileSync(path.join(COVER_DIR, file)).toString("base64"),
+  }));
 
   const photoKeys = [...new Set(Object.values(PHOTO_FILE_MAP))];
   for (const file of photoKeys) {
@@ -250,6 +264,18 @@ function buildPhotoClasses(images) {
   return css;
 }
 
+function buildHeroCarousel(images) {
+  const items = images.carousel
+    .map(({ file, data }) => `<img src="data:image/svg+xml;base64,${data}" alt="${esc(path.basename(file, ".svg"))}">`)
+    .join("");
+  return `<div class="hero-marquee" aria-label="Marcas em destaque">
+      <div class="hero-marquee-track">
+        <div class="hero-marquee-set">${items}</div>
+        <div class="hero-marquee-set" aria-hidden="true">${items}</div>
+      </div>
+    </div>`;
+}
+
 const CSS_BASE = (images, freightTable) => `
 :root{
   --bg:#060606;
@@ -274,6 +300,7 @@ const CSS_BASE = (images, freightTable) => `
 }
 @media (prefers-reduced-motion: reduce){
   *{animation-duration:.01ms !important;animation-iteration-count:1 !important;transition-duration:.01ms !important;scroll-behavior:auto !important}
+  .hero-marquee-track{animation:none !important;transform:none !important}
 }
 *{box-sizing:border-box}
 html{background:var(--bg);scroll-behavior:smooth}
@@ -305,9 +332,16 @@ a{color:inherit}
 /* ---------- hero ---------- */
 .hero{max-width:var(--maxw);margin:0 auto;position:relative;overflow:hidden;background:#000;line-height:0}
 .hero img{width:100%;height:auto;display:block}
-.hero-scrim{position:absolute;left:0;right:0;bottom:0;height:22%;background:linear-gradient(180deg, transparent, var(--bg))}
-.hero-stats{max-width:var(--maxw);margin:0 auto;padding:14px 20px 0;text-align:center}
-.hero-stats p{margin:0;font-family:var(--display);font-weight:700;font-size:12px;letter-spacing:.12em;text-transform:uppercase;color:var(--muted)}
+.hero-scrim{position:absolute;left:0;right:0;bottom:clamp(54px,10vw,68px);height:22%;background:linear-gradient(180deg, transparent, var(--bg))}
+.hero-marquee{position:relative;height:clamp(54px,10vw,68px);display:flex;align-items:center;overflow:hidden;background:#092fd2;border-top:1px solid rgba(255,255,255,.25);box-shadow:0 -10px 28px rgba(0,0,0,.28);line-height:normal}
+.hero-marquee::before,.hero-marquee::after{content:"";position:absolute;z-index:2;top:0;bottom:0;width:42px;pointer-events:none}
+.hero-marquee::before{left:0;background:linear-gradient(90deg,#092fd2,transparent)}
+.hero-marquee::after{right:0;background:linear-gradient(270deg,#092fd2,transparent)}
+.hero-marquee-track{display:flex;align-items:center;width:max-content;will-change:transform;animation:hero-marquee 12s linear infinite}
+.hero-marquee-set{display:flex;align-items:center;gap:30px;padding-right:30px;flex:none}
+.hero-marquee-set img{flex:none;width:auto;height:clamp(31px,6vw,42px);display:block}
+.hero-marquee:hover .hero-marquee-track{animation-play-state:paused}
+@keyframes hero-marquee{to{transform:translateX(-50%)}}
 
 /* ---------- sticky nav ---------- */
 .nav-wrap{position:sticky;top:0;z-index:30;background:rgba(6,6,6,.88);backdrop-filter:blur(14px);border-bottom:1px solid var(--line);padding:10px 0}
@@ -328,6 +362,9 @@ a{color:inherit}
 .search-status{min-height:18px;margin:6px 7px 0;color:var(--muted);font-size:11.5px;font-weight:600}
 .search-status.is-empty{color:#e3b7b7}
 [hidden]{display:none !important}
+@media (max-width:640px){
+  .search-input{font-size:16px}
+}
 
 /* ---------- frete (100% CSS, sem dependência de JavaScript) ---------- */
 .frete-body{padding:4px 12px 16px}
@@ -365,8 +402,8 @@ ${freightTable.map((s) => `#uf-${s.uf}:checked ~ .frete-results [data-uf="${s.uf
 .cat-title{flex:1;min-width:0}
 .cat-title h2{margin:0;font-family:var(--display);font-weight:800;font-size:clamp(22px,7.5vw,32px);line-height:1;text-transform:uppercase;color:var(--silver-soft)}
 .cat-title small{display:block;margin-top:4px;color:var(--muted);font-size:11.5px;font-weight:700;text-transform:uppercase;letter-spacing:.05em}
-.cat-chevron{flex:0 0 auto;width:32px;height:32px;border:1px solid var(--line-strong);border-radius:50%;display:grid;place-items:center;color:var(--silver-soft);font-size:19px;font-weight:900;transition:transform .2s ease}
-.category[open] .cat-chevron{transform:rotate(45deg)}
+.cat-chevron{flex:0 0 auto;width:32px;height:32px;border:1px solid #3158ff;border-radius:50%;display:grid;place-items:center;color:#fff;background:#092fd2;box-shadow:0 0 0 3px rgba(9,47,210,.15),0 6px 16px rgba(9,47,210,.28);font-size:19px;font-weight:900;transition:transform .2s ease,background-color .2s ease,box-shadow .2s ease}
+.category[open] .cat-chevron{transform:rotate(45deg);background:#3158ff;box-shadow:0 0 0 4px rgba(49,88,255,.18),0 8px 20px rgba(9,47,210,.34)}
 .category-body{padding:6px 12px 14px}
 
 /* ---------- brand card / plate ---------- */
@@ -374,10 +411,10 @@ ${freightTable.map((s) => `#uf-${s.uf}:checked ~ .frete-results [data-uf="${s.uf
 .brand-kicker{display:flex;align-items:flex-start;justify-content:space-between;gap:10px;padding:12px 14px 0}
 .brand-kicker-left{display:flex;align-items:center;gap:7px;min-width:0}
 .brand-kicker-left .mini-seal{flex:0 0 auto;width:16px;height:16px;border-radius:50%;background-image:var(--logo-seal);background-size:cover}
-.brand-kicker-left span{font-size:10px;font-weight:800;letter-spacing:.12em;text-transform:uppercase;color:var(--muted-2);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.brand-kicker-left span{font-size:10px;font-weight:800;letter-spacing:.12em;text-transform:uppercase;color:#6f8cff;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 .brand-kicker-right{display:flex;flex-direction:column;align-items:flex-end;gap:3px;min-width:0}
-.brand-kicker-name{font-family:var(--display);font-weight:700;font-size:13px;letter-spacing:.02em;text-transform:uppercase;color:var(--silver);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;text-align:right;max-width:100%}
-.brand-kicker-count{font-size:9.5px;font-weight:700;letter-spacing:.04em;text-transform:uppercase;color:var(--muted-2);white-space:nowrap}
+.brand-kicker-name{font-family:var(--display);font-weight:700;font-size:13px;letter-spacing:.02em;text-transform:uppercase;color:#6f8cff;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;text-align:right;max-width:100%}
+.brand-kicker-count{font-size:9.5px;font-weight:700;letter-spacing:.04em;text-transform:uppercase;color:#4f73ff;white-space:nowrap}
 .brand-feature{position:relative;margin:10px 14px 0;min-height:70px;padding:12px 20px;display:flex;align-items:center;justify-content:center}
 .brand-feature .logo-svg{width:100%;max-width:220px;height:46px}
 .brand-feature .logo-svg svg{width:100%;height:100%;display:block}
@@ -479,7 +516,7 @@ function buildBrandCard(categorySlug, brand, images, svgs) {
   const label = brandLabel(brand.marca);
   const brandKey = brand.marca.toUpperCase();
   const id = `${categorySlug}-${slugify(brand.marca)}`;
-  const groupLabel = cleanText(brand.grupo);
+  const groupName = groupLabel(brand.grupo);
   const count = brand.produtos.length;
   const countLabel = `${count} ${count === 1 ? "produto" : "produtos"}`;
 
@@ -511,7 +548,7 @@ function buildBrandCard(categorySlug, brand, images, svgs) {
           <div class="brand-kicker">
             <span class="brand-kicker-left">
               <span class="mini-seal" role="img" aria-label="Zenith Imports"></span>
-              <span>${esc(groupLabel)}</span>
+              <span>${esc(groupName)}</span>
             </span>
             <span class="brand-kicker-right">
               <span class="brand-kicker-name">${esc(label)}</span>
@@ -601,11 +638,8 @@ ${buildPhotoClasses(images)}
   <figure class="hero">
     <img src="data:image/webp;base64,${images.capa}" alt="Zenith Imports — a escolha de quem busca o melhor. As melhores marcas com entrega garantida.">
     <div class="hero-scrim"></div>
+    ${buildHeroCarousel(images)}
   </figure>
-  <div class="hero-stats">
-    <p>${totalProductsAll} produtos &middot; ${totalBrandsAll} marcas &middot; ${CATEGORIES.length} categorias</p>
-  </div>
-
   <div class="nav-wrap">
     ${buildNav()}
     ${buildSearch()}
