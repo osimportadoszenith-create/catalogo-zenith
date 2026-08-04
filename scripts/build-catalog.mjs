@@ -350,6 +350,7 @@ a{color:inherit}
 .nav-brand{flex:0 0 auto;width:34px;height:34px;border-radius:50%;background:var(--logo-seal);background-size:cover;box-shadow:0 0 0 1px var(--line-strong)}
 .nav a{flex:0 0 auto;font-family:var(--display);font-weight:700;font-size:12.5px;letter-spacing:.03em;text-transform:uppercase;text-decoration:none;color:var(--silver);background:linear-gradient(180deg,rgba(255,255,255,.08),rgba(0,0,0,.24));border:1px solid var(--line);padding:9px 13px;border-radius:999px;white-space:nowrap}
 .nav a:active{background:linear-gradient(180deg,rgba(255,255,255,.2),rgba(0,0,0,.24))}
+#live-category-nav{display:contents}
 .search-wrap{max-width:var(--maxw);margin:9px auto 0;padding:0 12px}
 .catalog-search{position:relative;display:flex;align-items:center}
 .search-icon{position:absolute;left:13px;width:19px;height:19px;color:var(--muted);pointer-events:none}
@@ -430,6 +431,13 @@ ${freightTable.map((s) => `#uf-${s.uf}:checked ~ .frete-results [data-uf="${s.uf
 .product-info .name{display:block;font-size:14.5px;font-weight:600;line-height:1.3}
 .product-info .sub{display:block;margin-top:2px;font-size:12px;color:var(--muted-2);line-height:1.3}
 .price{flex:0 0 auto;font-weight:800;font-size:14.5px;color:var(--silver-soft);font-variant-numeric:tabular-nums;white-space:nowrap}
+.product-row.is-unavailable{opacity:.72}
+.product-row.is-unavailable .name,.product-row.is-unavailable .sub{color:var(--muted-2)}
+.product-meta{flex:0 0 auto;display:flex;flex-direction:column;align-items:flex-end;gap:4px}
+.stock-status{display:inline-flex;align-items:center;border:1px solid rgba(255,107,107,.35);border-radius:999px;padding:2px 7px;background:rgba(160,28,28,.18);color:#ffaaaa;font-size:9px;font-weight:800;letter-spacing:.06em;text-transform:uppercase;white-space:nowrap}
+.sync-status{min-height:16px;margin:5px 4px 0;color:var(--muted-2);font-size:10px;font-weight:600;letter-spacing:.02em;text-align:right}
+.sync-status.is-live{color:#6f8cff}
+.sync-status.is-error{color:#f1b0b0}
 
 /* ---------- footer ---------- */
 .site-footer{max-width:var(--maxw);margin:30px auto 0;padding:26px 20px 10px;text-align:center;border-top:1px solid var(--line)}
@@ -588,18 +596,19 @@ function buildNav() {
   const links = CATEGORIES.map((c) => `<a href="#${c.slug}" data-open="${c.slug}">${c.title.replace(/&amp;/g, "&")}</a>`).join("");
   return `<nav class="nav" aria-label="Categorias">
       <span class="nav-brand" role="img" aria-label="Zenith Imports"></span>
-      <a href="#frete" data-open="frete">FRETE</a><a href="#informacoes" data-open="informacoes">INFORMAÇÕES</a>${links}
+      <a href="#frete" data-open="frete">FRETE</a><a href="#informacoes" data-open="informacoes">INFORMAÇÕES</a><span id="live-category-nav">${links}</span>
     </nav>`;
 }
 
 function buildSearch() {
   return `<div class="search-wrap">
-      <form class="catalog-search" role="search" aria-label="Buscar produtos">
+      <form class="catalog-search" role="search" aria-label="Buscar produtos ou marcas">
         <svg class="search-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><circle cx="11" cy="11" r="7"></circle><path d="m20 20-4-4"></path></svg>
-        <input class="search-input" id="catalog-search" type="search" inputmode="search" autocomplete="off" placeholder="Buscar produto, ex.: tirzepatida" aria-describedby="search-status">
+        <input class="search-input" id="catalog-search" type="search" inputmode="search" autocomplete="off" placeholder="Buscar produto ou marca" aria-describedby="search-status">
         <button class="search-clear" id="search-clear" type="button" aria-label="Limpar busca" hidden>&times;</button>
       </form>
       <div class="search-status" id="search-status" role="status" aria-live="polite"></div>
+      <div class="sync-status" id="sync-status" role="status" aria-live="polite">Conectando ao catálogo oficial...</div>
     </div>`;
 }
 
@@ -661,11 +670,12 @@ ${buildPhotoClasses(images)}
   <a class="top-button" href="#topo" aria-label="Voltar ao topo">Topo</a>
 
 <script>
-document.querySelectorAll("[data-open]").forEach(function(link){
-  link.addEventListener("click", function(){
+document.querySelector(".nav").addEventListener("click", function(event){
+  var link = event.target.closest("[data-open]");
+  if (link) {
     var target = document.getElementById(link.getAttribute("data-open"));
     if (target) target.open = true;
-  });
+  }
 });
 function abrirCategoriaDoLink(){
   var id = (window.location.hash || "").replace("#", "");
@@ -679,8 +689,26 @@ window.addEventListener("hashchange", abrirCategoriaDoLink);
 var searchInput = document.getElementById("catalog-search");
 var searchClear = document.getElementById("search-clear");
 var searchStatus = document.getElementById("search-status");
+var syncStatus = document.getElementById("sync-status");
 var catalogCategories = Array.from(document.querySelectorAll(".catalog-category"));
 var searchActive = false;
+var liveCatalogSignature = "";
+var liveCatalogBusy = false;
+
+var liveCategoryMeta = {
+  "CANETAS E EMAGRECEDORES": { slug: "emagrecedores", title: "Canetas e Emagrecedores", order: 10 },
+  "EMAGRECEDORES": { slug: "emagrecedores", title: "Canetas e Emagrecedores", order: 10 },
+  "PEPTÍDEOS": { slug: "peptideos", title: "Peptídeos", order: 20 },
+  "PEPTIDEOS": { slug: "peptideos", title: "Peptídeos", order: 20 },
+  "MARCAS PREMIUM": { slug: "premium", title: "Linha Premium", order: 30 },
+  "MARCAS IMPORTADAS": { slug: "importadas", title: "Linha Importada", order: 40 },
+  "GH": { slug: "gh", title: "GH", order: 50 },
+  "SARMS": { slug: "sarms", title: "Sarms & Variados", order: 60 },
+  "SARMS + PRODUTOS VARIADOS": { slug: "sarms", title: "Sarms & Variados", order: 60 },
+  "FARMÁCIA": { slug: "farmacia", title: "Farmácia", order: 70 },
+  "FARMÁCIA + MANIPULADOS": { slug: "farmacia", title: "Farmácia", order: 70 }
+};
+var livePhotoFiles = ${JSON.stringify(PHOTO_FILE_MAP)};
 
 function normalizeSearch(value){
   return (value || "")
@@ -688,6 +716,182 @@ function normalizeSearch(value){
     .replace(/[\\u0300-\\u036f]/g, "")
     .toLowerCase()
     .trim();
+}
+
+function slugifyLive(value){
+  return normalizeSearch(value).replace(/[^a-z0-9]+/g, "-").replace(/^-+|-+$/g, "");
+}
+
+function categoryMetaLive(name){
+  var normalized = (name || "").trim().toUpperCase();
+  return liveCategoryMeta[normalized] || {
+    slug: slugifyLive(name) || "categoria",
+    title: (name || "Categoria").trim(),
+    order: 1000
+  };
+}
+
+function moneyLive(value){
+  return typeof value === "number" && isFinite(value)
+    ? new Intl.NumberFormat("pt-BR", { style: "currency", currency: "BRL" }).format(value)
+    : "Consultar";
+}
+
+function createLiveElement(tag, className, text){
+  var element = document.createElement(tag);
+  if (className) element.className = className;
+  if (text !== undefined && text !== null) element.textContent = text;
+  return element;
+}
+
+function buildLiveBrandCard(categorySlug, brandName, products){
+  var card = createLiveElement("section", "brand-card");
+  card.id = categorySlug + "-" + slugifyLive(brandName);
+
+  var kicker = createLiveElement("div", "brand-kicker");
+  var kickerLeft = createLiveElement("span", "brand-kicker-left");
+  var seal = createLiveElement("span", "mini-seal");
+  seal.setAttribute("role", "img");
+  seal.setAttribute("aria-label", "Zenith Imports");
+  kickerLeft.appendChild(seal);
+  var groups = Array.from(new Set(products.map(function(product){ return product.group; }).filter(Boolean)));
+  kickerLeft.appendChild(createLiveElement("span", "", groups.join(" • ") || "Catálogo"));
+
+  var kickerRight = createLiveElement("span", "brand-kicker-right");
+  kickerRight.appendChild(createLiveElement("span", "brand-kicker-name", brandName));
+  kickerRight.appendChild(createLiveElement("span", "brand-kicker-count", products.length + (products.length === 1 ? " produto" : " produtos")));
+  kicker.appendChild(kickerLeft);
+  kicker.appendChild(kickerRight);
+  card.appendChild(kicker);
+
+  var brandKey = (products[0].brand || brandName).toUpperCase();
+  var photoFile = livePhotoFiles[brandKey];
+  if (photoFile) {
+    var photo = createLiveElement("div", "brand-photo photo-" + slugifyLive(photoFile));
+    photo.setAttribute("role", "img");
+    photo.setAttribute("aria-label", brandName);
+    card.appendChild(photo);
+  } else {
+    var feature = createLiveElement("div", "plate brand-feature");
+    feature.appendChild(createLiveElement("span", "logo-text", brandName));
+    card.appendChild(feature);
+  }
+
+  var list = createLiveElement("ul", "product-list");
+  products.forEach(function(product){
+    var unavailable = product.status === "out_of_stock";
+    var row = createLiveElement("li", "product-row" + (unavailable ? " is-unavailable" : ""));
+    row.dataset.productId = product.id;
+    var info = createLiveElement("div", "product-info");
+    info.appendChild(createLiveElement("span", "name", product.name));
+    if (product.presentation) info.appendChild(createLiveElement("span", "sub", product.presentation));
+    var meta = createLiveElement("span", "product-meta");
+    meta.appendChild(createLiveElement("span", "price", moneyLive(product.finalPrice)));
+    if (unavailable) meta.appendChild(createLiveElement("span", "stock-status", "Indisponível"));
+    row.appendChild(info);
+    row.appendChild(meta);
+    list.appendChild(row);
+  });
+  card.appendChild(list);
+  return card;
+}
+
+function buildLiveCategory(name, products){
+  var meta = categoryMetaLive(name);
+  var details = createLiveElement("details", "category catalog-category");
+  details.id = meta.slug;
+  var summary = createLiveElement("summary");
+  var icon = createLiveElement("span", "cat-icon");
+  icon.setAttribute("role", "img");
+  icon.setAttribute("aria-label", "Zenith Imports");
+  var titleWrap = createLiveElement("span", "cat-title");
+  titleWrap.appendChild(createLiveElement("h2", "", meta.title));
+
+  var brands = new Map();
+  products.forEach(function(product){
+    var label = product.displayBrand || product.brand;
+    if (!brands.has(label)) brands.set(label, []);
+    brands.get(label).push(product);
+  });
+  titleWrap.appendChild(createLiveElement("small", "", products.length + " produtos · " + brands.size + " marcas"));
+  summary.appendChild(icon);
+  summary.appendChild(titleWrap);
+  summary.appendChild(createLiveElement("span", "cat-chevron", "+"));
+  details.appendChild(summary);
+
+  var body = createLiveElement("div", "category-body");
+  Array.from(brands.entries())
+    .sort(function(a, b){ return a[0].localeCompare(b[0], "pt-BR"); })
+    .forEach(function(entry){ body.appendChild(buildLiveBrandCard(meta.slug, entry[0], entry[1])); });
+  details.appendChild(body);
+  return details;
+}
+
+function renderLiveCatalog(products){
+  var openCategories = {};
+  catalogCategories.forEach(function(category){ openCategories[category.id] = category.open; });
+
+  var groups = new Map();
+  products.forEach(function(product){
+    if (!groups.has(product.category)) groups.set(product.category, []);
+    groups.get(product.category).push(product);
+  });
+
+  var entries = Array.from(groups.entries()).sort(function(a, b){
+    var metaA = categoryMetaLive(a[0]);
+    var metaB = categoryMetaLive(b[0]);
+    return metaA.order - metaB.order || metaA.title.localeCompare(metaB.title, "pt-BR");
+  });
+
+  var page = document.querySelector("main.page");
+  catalogCategories.forEach(function(category){ category.remove(); });
+  var fragment = document.createDocumentFragment();
+  entries.forEach(function(entry){
+    var category = buildLiveCategory(entry[0], entry[1]);
+    category.open = openCategories[category.id] === true;
+    fragment.appendChild(category);
+  });
+  page.appendChild(fragment);
+  catalogCategories = Array.from(document.querySelectorAll(".catalog-category"));
+
+  var nav = document.getElementById("live-category-nav");
+  nav.replaceChildren();
+  entries.forEach(function(entry){
+    var meta = categoryMetaLive(entry[0]);
+    var link = createLiveElement("a", "", meta.title);
+    link.href = "#" + meta.slug;
+    link.dataset.open = meta.slug;
+    nav.appendChild(link);
+  });
+
+  filterCatalog();
+  abrirCategoriaDoLink();
+}
+
+async function syncLiveCatalog(){
+  if (liveCatalogBusy || document.visibilityState === "hidden") return;
+  liveCatalogBusy = true;
+  try {
+    var response = await fetch("/api/catalog", { cache: "no-store", headers: { accept: "application/json" } });
+    if (!response.ok) throw new Error("HTTP " + response.status);
+    var payload = await response.json();
+    if (!payload || !Array.isArray(payload.products) || payload.products.length === 0) throw new Error("Catálogo vazio");
+    var signature = JSON.stringify(payload.products);
+    if (signature !== liveCatalogSignature) {
+      renderLiveCatalog(payload.products);
+      liveCatalogSignature = signature;
+    }
+    var unavailableCount = payload.products.filter(function(product){ return product.status === "out_of_stock"; }).length;
+    syncStatus.className = "sync-status is-live";
+    syncStatus.textContent = "Catálogo oficial sincronizado · " + payload.products.length + " produtos · " + unavailableCount + " indisponíveis";
+  } catch (error) {
+    syncStatus.className = "sync-status is-error";
+    syncStatus.textContent = liveCatalogSignature
+      ? "Atualização temporariamente indisponível · mantendo a última versão sincronizada"
+      : "Fonte oficial temporariamente indisponível · exibindo a versão de segurança";
+  } finally {
+    liveCatalogBusy = false;
+  }
 }
 
 function filterCatalog(){
@@ -706,9 +910,11 @@ function filterCatalog(){
     category.querySelectorAll(".brand-card").forEach(function(card){
       var brandMatches = 0;
       var brandCount = card.querySelector(".brand-kicker-count");
+      var brandName = card.querySelector(".brand-kicker-name");
+      var brandMatchesQuery = isSearching && normalizeSearch(brandName ? brandName.textContent : "").includes(query);
       card.querySelectorAll(".product-row").forEach(function(row){
         var searchable = normalizeSearch(row.textContent);
-        var matches = !isSearching || searchable.includes(query);
+        var matches = !isSearching || brandMatchesQuery || searchable.includes(query);
         row.hidden = !matches;
         if (matches && isSearching) brandMatches += 1;
       });
@@ -761,6 +967,12 @@ searchClear.addEventListener("click", function(){
 });
 document.querySelector(".catalog-search").addEventListener("submit", function(event){
   event.preventDefault();
+});
+syncLiveCatalog();
+setInterval(syncLiveCatalog, 15000);
+window.addEventListener("focus", syncLiveCatalog);
+document.addEventListener("visibilitychange", function(){
+  if (document.visibilityState === "visible") syncLiveCatalog();
 });
 </script>
 </body>
